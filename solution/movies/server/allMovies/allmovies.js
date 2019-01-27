@@ -23,7 +23,15 @@ getAllData = async () => {
 
     allPages.push(call.data);
   }
+  // for (let i = 40; i <= 79; i++) {
+  //   call = await axios.get(
+  //     `https://api.themoviedb.org/3/movie/popular?api_key=${
+  //       process.env.API_KEY
+  //     }&language=en-US&page=${i}`
+  //   );
 
+  //   allPages.push(call.data);
+  // }
   console.log("allPages==>", allPages);
   return allPages;
 };
