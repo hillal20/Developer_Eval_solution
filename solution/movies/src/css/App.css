@@ -1,0 +1,26 @@
+.App {
+  background: lightcoral;
+  display: flex;
+  flex-direction: column;
+}
+.App .nav-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.App .all-movies {
+  display: flex;
+  flex-wrap: wrap;
+}
+.App .all-movies .movie-card {
+  background: khaki;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  width: 30%;
+  height: 30%;
+  border: 3px solid red;
+  margin: 10px;
+  align-items: center;
+  padding: 10px;
+}
