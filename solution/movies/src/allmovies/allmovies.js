@@ -203,7 +203,7 @@ class AllMovies extends Component {
             clickPopular === false &&
             topRatedMovies.map((m, i) => {
               return (
-                <div className="movie-card">
+                <div className="movie-card" key={i}>
                   <h3 key={i}>{m.title}</h3>
                   <img
                     src={`https://image.tmdb.org/t/p/w1280${m.poster_path}`}
@@ -244,9 +244,12 @@ class AllMovies extends Component {
               })}
 
           {clickPlaying &&
+            movie === "" &&
+            clickTop === false &&
+            clickPopular === false &&
             playingNowMovies.map((m, i) => {
               return (
-                <div className="movie-card">
+                <div className="movie-card" key={i}>
                   <h3 key={i}>{m.title}</h3>
                   <img
                     src={`https://image.tmdb.org/t/p/w1280${m.poster_path}`}
@@ -256,6 +259,32 @@ class AllMovies extends Component {
                 </div>
               );
             })}
+          {clickPlaying &&
+            movie !== "" &&
+            clickTop === false &&
+            clickPopular === false &&
+            playingNowMovies
+              .filter((item, index) => {
+                if (item === undefined || item === null) {
+                  return false;
+                } else {
+                  return (
+                    item.title.toLowerCase().indexOf(movie.toLowerCase()) !== -1
+                  );
+                }
+              })
+              .map((m, i) => {
+                return (
+                  <div className="movie-card" key={i}>
+                    <h3 key={i}>{m.title}</h3>
+                    <img
+                      src={`https://image.tmdb.org/t/p/w1280${m.poster_path}`}
+                      width="70%"
+                      height="30%"
+                    />
+                  </div>
+                );
+              })}
         </div>
       </div>
     );
