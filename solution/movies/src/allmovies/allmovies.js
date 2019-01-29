@@ -169,6 +169,8 @@ class AllMovies extends Component {
 
           {movie !== "" &&
             clickPopular &&
+            clickTop === false &&
+            clickPlaying === false &&
             popularMovies
               .filter((item, index) => {
                 if (item === undefined || item === null) {
