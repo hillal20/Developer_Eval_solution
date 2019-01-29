@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import keys from "../keys";
-import fetchPopularMovies from "./rowData";
+import fetchMovies from "./rowData";
 class AllMovies extends Component {
   constructor(props) {
     super(props);
@@ -17,31 +17,63 @@ class AllMovies extends Component {
     };
   }
   componentDidMount() {
-    fetchPopularMovies()
+    const nonRepeatedMovies = [];
+
+    fetchMovies()
       .then(res => {
         console.log("res", res);
+
+        for (let i = 0; i < [...res[0], ...res[1], ...res[2]].length; i++) {
+          if (
+            !nonRepeatedMovies.includes([...res[0], ...res[1], ...res[2]][i])
+          ) {
+            nonRepeatedMovies.push([...res[0], ...res[1], ...res[2]][i]);
+          }
+        }
+
         this.setState({
           popularMovies: res[0],
           playingNowMovies: res[1],
           topRatedMovies: res[2],
-          allMovies: [...res[0], ...res[1], ...res[2]]
+          allMovies: nonRepeatedMovies
         });
       })
       .catch(err => {
         console.log(err);
       });
+    console.log("nonRepeated==>", nonRepeatedMovies);
   }
   searchEventHandler = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
   render() {
-    const { popularMovies, playingNowMovies, topRatedMovies } = this.state;
+    const {
+      popularMovies,
+      playingNowMovies,
+      topRatedMovies,
+      allMovies,
+      movie,
+      clickPlaying,
+      clickTop,
+      clickPopular
+    } = this.state;
 
     return (
       <div>
         <div className="nav-bar">
           <h1> Welcome to Movies guide </h1>
+          <button
+            onClick={() => {
+              this.setState({
+                clickPopular: false,
+                clickPlaying: false,
+                clickTop: false
+              });
+            }}
+          >
+            All Movies
+          </button>
           <button
             onClick={() => {
               this.setState({
@@ -53,6 +85,7 @@ class AllMovies extends Component {
           >
             Popular Movies
           </button>
+
           <button
             onClick={() => {
               this.setState({
@@ -84,8 +117,65 @@ class AllMovies extends Component {
           />
         </div>
         <div className="all-movies">
-          {this.state.movie !== "" &&
-            this.state.allMovies
+          {movie !== "" &&
+            allMovies
+              .filter((item, index) => {
+                if (item === undefined || item === null) {
+                  return false;
+                } else {
+                  return (
+                    item.title.toLowerCase().indexOf(movie.toLowerCase()) !== -1
+                  );
+                }
+              })
+              .map((movie, i) => {
+                return (
+                  <div className="movie-card">
+                    <h3 key={i}>{movie.title}</h3>
+                    <img
+                      src={`https://image.tmdb.org/t/p/w1280${
+                        movie.poster_path
+                      }`}
+                      width="70%"
+                      height="30%"
+                    />
+                  </div>
+                );
+              })}
+          {movie === "" &&
+            clickPlaying === false &&
+            clickPopular === false &&
+            clickTop === false &&
+            allMovies.map((m, i) => {
+              return (
+                <div className="movie-card" key={i}>
+                  <h3 key={i}>{m.title}</h3>
+                  <img
+                    src={`https://image.tmdb.org/t/p/w1280${m.poster_path}`}
+                    width="70%"
+                    height="30%"
+                  />
+                </div>
+              );
+            })}
+          {clickPopular &&
+            popularMovies.map((m, i) => {
+              return (
+                <div className="movie-card" key={i}>
+                  <h3 key={i}>{m.title}</h3>
+                  <img
+                    src={`https://image.tmdb.org/t/p/w1280${m.poster_path}`}
+                    width="70%"
+                    height="30%"
+                  />
+                </div>
+              );
+            })}
+          {/* ////////////////////// */}
+
+          {movie !== "" &&
+            clickPopular &&
+            popularMovies
               .filter((item, index) => {
                 if (item === undefined || item === null) {
                   return false;
@@ -111,36 +201,9 @@ class AllMovies extends Component {
                   </div>
                 );
               })}
-          {this.state.movie === "" &&
-            this.state.clickPlaying === false &&
-            this.state.clickPopular === false &&
-            this.state.clickTop === false &&
-            this.state.allMovies.map((m, i) => {
-              return (
-                <div className="movie-card" key={i}>
-                  <h3 key={i}>{m.title}</h3>
-                  <img
-                    src={`https://image.tmdb.org/t/p/w1280${m.poster_path}`}
-                    width="70%"
-                    height="30%"
-                  />
-                </div>
-              );
-            })}
-          {this.state.clickPopular &&
-            popularMovies.map((m, i) => {
-              return (
-                <div className="movie-card" key={i}>
-                  <h3 key={i}>{m.title}</h3>
-                  <img
-                    src={`https://image.tmdb.org/t/p/w1280${m.poster_path}`}
-                    width="70%"
-                    height="30%"
-                  />
-                </div>
-              );
-            })}
-          {this.state.clickTop &&
+
+          {/* ///////////////////// */}
+          {clickTop &&
             topRatedMovies.map((m, i) => {
               return (
                 <div className="movie-card">
@@ -153,7 +216,7 @@ class AllMovies extends Component {
                 </div>
               );
             })}
-          {this.state.clickPlaying &&
+          {clickPlaying &&
             playingNowMovies.map((m, i) => {
               return (
                 <div className="movie-card">
