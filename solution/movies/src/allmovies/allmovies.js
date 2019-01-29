@@ -9,9 +9,11 @@ class AllMovies extends Component {
       popularMovies: [],
       playingNowMovies: [],
       topRatedMovies: [],
+      allMovies: [],
       clickPopular: false,
       clickPlaying: false,
-      clickTop: false
+      clickTop: false,
+      movie: ""
     };
   }
   componentDidMount() {
@@ -21,13 +23,17 @@ class AllMovies extends Component {
         this.setState({
           popularMovies: res[0],
           playingNowMovies: res[1],
-          topRatedMovies: res[2]
+          topRatedMovies: res[2],
+          allMovies: [...res[0], ...res[1], ...res[2]]
         });
       })
       .catch(err => {
         console.log(err);
       });
   }
+  searchEventHandler = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
 
   render() {
     const { popularMovies, playingNowMovies, topRatedMovies } = this.state;
@@ -69,17 +75,67 @@ class AllMovies extends Component {
           >
             Top Movies
           </button>
+          <input
+            type="text"
+            placeholder="enter movie name"
+            name="movie"
+            value={this.state.movie}
+            onChange={this.searchEventHandler}
+          />
         </div>
         <div className="all-movies">
-          {this.state.clickPopular &&
-            popularMovies.map((m, i) => {
+          {this.state.movie !== "" &&
+            this.state.allMovies
+              .filter((item, index) => {
+                if (item === undefined || item === null) {
+                  return false;
+                } else {
+                  return (
+                    item.title
+                      .toLowerCase()
+                      .indexOf(this.state.movie.toLowerCase()) !== -1
+                  );
+                }
+              })
+              .map((movie, i) => {
+                return (
+                  <div className="movie-card">
+                    <h3 key={i}>{movie.title}</h3>
+                    <img
+                      src={`https://image.tmdb.org/t/p/w1280${
+                        movie.poster_path
+                      }`}
+                      width="70%"
+                      height="30%"
+                    />
+                  </div>
+                );
+              })}
+          {this.state.movie === "" &&
+            this.state.clickPlaying === false &&
+            this.state.clickPopular === false &&
+            this.state.clickTop === false &&
+            this.state.allMovies.map((m, i) => {
               return (
-                <div className="movie-card">
+                <div className="movie-card" key={i}>
                   <h3 key={i}>{m.title}</h3>
                   <img
                     src={`https://image.tmdb.org/t/p/w1280${m.poster_path}`}
-                    width="400"
-                    height="400"
+                    width="70%"
+                    height="30%"
+                  />
+                </div>
+              );
+            })}
+          {this.state.clickPopular &&
+            popularMovies.map((m, i) => {
+              return (
+                <div className="movie-card" key={i}>
+                  <h3 key={i}>{m.title}</h3>
+                  <img
+                    src={`https://image.tmdb.org/t/p/w1280${m.poster_path}`}
+                    width="70%"
+                    height="30%"
                   />
                 </div>
               );
@@ -91,8 +147,8 @@ class AllMovies extends Component {
                   <h3 key={i}>{m.title}</h3>
                   <img
                     src={`https://image.tmdb.org/t/p/w1280${m.poster_path}`}
-                    width="400"
-                    height="400"
+                    width="70%"
+                    height="30%"
                   />
                 </div>
               );
@@ -104,8 +160,8 @@ class AllMovies extends Component {
                   <h3 key={i}>{m.title}</h3>
                   <img
                     src={`https://image.tmdb.org/t/p/w1280${m.poster_path}`}
-                    width="400"
-                    height="400"
+                    width="70%"
+                    height="30%"
                   />
                 </div>
               );

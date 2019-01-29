@@ -1,11 +1,31 @@
+//less-watch-compiler  less css App.less
+
 .App {
   background: lightcoral;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
   .nav-bar {
     display: flex;
     flex-direction: column;
     align-items: center;
+    button {
+      width: 20%;
+      height: 40px;
+      margin: 5px;
+      font-weight: bold;
+      font-size: 20px;
+      &:hover {
+        background: darkgrey;
+      }
+    }
+    input {
+      width: 20%;
+      height: 40px;
+      margin: 5px;
+      font-weight: bold;
+      font-size: 20px;
+    }
   }
   .all-movies {
     display: flex;
@@ -21,6 +41,7 @@
       margin: 10px;
       align-items: center;
       padding: 10px;
+      border-radius: 20px;
     }
   }
 }
