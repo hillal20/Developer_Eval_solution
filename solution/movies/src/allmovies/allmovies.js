@@ -17,31 +17,25 @@ class AllMovies extends Component {
     };
   }
   componentDidMount() {
-    const nonRepeatedMovies = [];
-
     fetchMovies()
       .then(res => {
         console.log("res", res);
-
-        for (let i = 0; i < [...res[0], ...res[1], ...res[2]].length; i++) {
-          if (
-            !nonRepeatedMovies.includes([...res[0], ...res[1], ...res[2]][i])
-          ) {
-            nonRepeatedMovies.push([...res[0], ...res[1], ...res[2]][i]);
+        const nonRepeatedMovies = [];
+        [...res[0], ...res[1], ...res[2]].forEach(element => {
+          if (!nonRepeatedMovies.includes(element)) {
+            nonRepeatedMovies.push(element);
           }
-        }
-
+        });
         this.setState({
           popularMovies: res[0],
           playingNowMovies: res[1],
           topRatedMovies: res[2],
-          allMovies: nonRepeatedMovies
+          allMovies: [...res[0], ...res[3]]
         });
       })
       .catch(err => {
         console.log(err);
       });
-    console.log("nonRepeated==>", nonRepeatedMovies);
   }
   searchEventHandler = event => {
     this.setState({ [event.target.name]: event.target.value });
