@@ -3,6 +3,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  align-items: center;
 }
 .App .nav-bar {
   display: flex;
@@ -42,4 +43,17 @@
   align-items: center;
   padding: 10px;
   border-radius: 20px;
+}
+.App .movie-detail {
+  width: 30%;
+  background: khaki;
+  padding-bottom: 5%;
+  border: 4px solid red;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5%;
+}
+.App .movie-detail img {
+  margin: 15px;
 }

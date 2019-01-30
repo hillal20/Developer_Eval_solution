@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import keys from "../keys";
 import fetchMovies from "./rowData";
+import { withRouter, Link } from "react-router-dom";
 class AllMovies extends Component {
   constructor(props) {
     super(props);
@@ -13,15 +14,13 @@ class AllMovies extends Component {
       clickPopular: false,
       clickPlaying: false,
       clickTop: false,
-      movie: ""
+      movie: "",
+      err: ""
     };
   }
   componentDidMount() {
     fetchMovies()
       .then(res => {
-        console.log("res", res);
-        const nonRepeatedMovies = [];
-
         this.setState({
           popularMovies: res[0],
           playingNowMovies: res[1],
@@ -30,7 +29,7 @@ class AllMovies extends Component {
         });
       })
       .catch(err => {
-        console.log(err);
+        this.setState({ err: err });
       });
   }
   searchEventHandler = event => {
@@ -46,7 +45,8 @@ class AllMovies extends Component {
       movie,
       clickPlaying,
       clickTop,
-      clickPopular
+      clickPopular,
+      err
     } = this.state;
 
     return (
@@ -107,6 +107,12 @@ class AllMovies extends Component {
           />
         </div>
         <div className="all-movies">
+          {err !== "" && (
+            <div>
+              {" "}
+              <h1>... error happened in loading movies</h1>
+            </div>
+          )}
           {movie !== "" &&
             clickPopular === false &&
             clickPlaying === false &&
@@ -123,7 +129,13 @@ class AllMovies extends Component {
               })
               .map((movie, i) => {
                 return (
-                  <div className="movie-card" key={i}>
+                  <div
+                    className="movie-card"
+                    key={i}
+                    onClick={() => {
+                      this.props.history.push(`/detail/${movie.id}`);
+                    }}
+                  >
                     <h3 key={i}>{movie.title}</h3>
                     <img
                       src={`https://image.tmdb.org/t/p/w1280${
@@ -141,7 +153,13 @@ class AllMovies extends Component {
             clickTop === false &&
             allMovies.map((m, i) => {
               return (
-                <div className="movie-card" key={i}>
+                <div
+                  className="movie-card"
+                  key={i}
+                  onClick={() => {
+                    this.props.history.push(`/detail/${m.id}`);
+                  }}
+                >
                   <h3 key={i}>{m.title}</h3>
                   <img
                     src={`https://image.tmdb.org/t/p/w1280${m.poster_path}`}
@@ -151,7 +169,6 @@ class AllMovies extends Component {
                 </div>
               );
             })}
-          {/* ////////////////////// */}
 
           {movie === "" &&
             clickPopular &&
@@ -159,7 +176,13 @@ class AllMovies extends Component {
             clickPlaying === false &&
             popularMovies.map((m, i) => {
               return (
-                <div className="movie-card" key={i}>
+                <div
+                  className="movie-card"
+                  key={i}
+                  onClick={() => {
+                    this.props.history.push(`/detail/${m.id}`);
+                  }}
+                >
                   <h3 key={i}>{m.title}</h3>
                   <img
                     src={`https://image.tmdb.org/t/p/w1280${m.poster_path}`}
@@ -169,7 +192,7 @@ class AllMovies extends Component {
                 </div>
               );
             })}
-          {/* //////////////////////// */}
+
           {movie !== "" &&
             clickPopular &&
             clickTop === false &&
@@ -186,7 +209,13 @@ class AllMovies extends Component {
               })
               .map((m, i) => {
                 return (
-                  <div className="movie-card" key={i}>
+                  <div
+                    className="movie-card"
+                    key={i}
+                    onClick={() => {
+                      this.props.history.push(`/detail/${m.id}`);
+                    }}
+                  >
                     <h3 key={i}>{m.title}</h3>
                     <img
                       src={`https://image.tmdb.org/t/p/w1280${m.poster_path}`}
@@ -196,14 +225,20 @@ class AllMovies extends Component {
                   </div>
                 );
               })}
-          {/* ////////////////////////////// */}
+
           {clickTop &&
             movie === "" &&
             clickPlaying === false &&
             clickPopular === false &&
             topRatedMovies.map((m, i) => {
               return (
-                <div className="movie-card" key={i}>
+                <div
+                  className="movie-card"
+                  key={i}
+                  onClick={() => {
+                    this.props.history.push(`/detail/${m.id}`);
+                  }}
+                >
                   <h3 key={i}>{m.title}</h3>
                   <img
                     src={`https://image.tmdb.org/t/p/w1280${m.poster_path}`}
@@ -213,8 +248,6 @@ class AllMovies extends Component {
                 </div>
               );
             })}
-
-          {/* ////////// */}
 
           {movie !== "" &&
             clickTop &&
@@ -232,7 +265,13 @@ class AllMovies extends Component {
               })
               .map((m, i) => {
                 return (
-                  <div className="movie-card" key={i}>
+                  <div
+                    className="movie-card"
+                    key={i}
+                    onClick={() => {
+                      this.props.history.push(`/detail/${m.id}`);
+                    }}
+                  >
                     <h3 key={i}>{m.title}</h3>
                     <img
                       src={`https://image.tmdb.org/t/p/w1280${m.poster_path}`}
@@ -249,7 +288,13 @@ class AllMovies extends Component {
             clickPopular === false &&
             playingNowMovies.map((m, i) => {
               return (
-                <div className="movie-card" key={i}>
+                <div
+                  className="movie-card"
+                  key={i}
+                  onClick={() => {
+                    this.props.history.push(`/detail/${m.id}`);
+                  }}
+                >
                   <h3 key={i}>{m.title}</h3>
                   <img
                     src={`https://image.tmdb.org/t/p/w1280${m.poster_path}`}
@@ -275,7 +320,13 @@ class AllMovies extends Component {
               })
               .map((m, i) => {
                 return (
-                  <div className="movie-card" key={i}>
+                  <div
+                    className="movie-card"
+                    key={i}
+                    onClick={() => {
+                      this.props.history.push(`/detail/${m.id}`);
+                    }}
+                  >
                     <h3 key={i}>{m.title}</h3>
                     <img
                       src={`https://image.tmdb.org/t/p/w1280${m.poster_path}`}
@@ -290,4 +341,4 @@ class AllMovies extends Component {
     );
   }
 }
-export default AllMovies;
+export default withRouter(AllMovies);
