@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import keys from "../keys";
 import fetchMovies from "./rowData";
-import { withRouter, Link } from "react-router-dom";
+
 class AllMovies extends Component {
   constructor(props) {
     super(props);
@@ -67,13 +67,13 @@ class AllMovies extends Component {
           <button
             onClick={() => {
               this.setState({
-                clickPopular: true,
+                clickPopular: false,
                 clickPlaying: false,
-                clickTop: false
+                clickTop: true
               });
             }}
           >
-            Popular Movies
+            Top Movies
           </button>
 
           <button
@@ -90,14 +90,15 @@ class AllMovies extends Component {
           <button
             onClick={() => {
               this.setState({
-                clickPopular: false,
+                clickPopular: true,
                 clickPlaying: false,
-                clickTop: true
+                clickTop: false
               });
             }}
           >
-            Top Movies
+            Popular Movies
           </button>
+
           <input
             type="text"
             placeholder="enter movie name"
@@ -109,7 +110,6 @@ class AllMovies extends Component {
         <div className="all-movies">
           {err !== "" && (
             <div>
-              {" "}
               <h1>... error happened in loading movies</h1>
             </div>
           )}
@@ -341,4 +341,4 @@ class AllMovies extends Component {
     );
   }
 }
-export default withRouter(AllMovies);
+export default AllMovies;

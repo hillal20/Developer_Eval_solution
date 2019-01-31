@@ -23,8 +23,6 @@ class MovieDetail extends Component {
       });
   }
 
-  getMovie = () => {};
-
   render() {
     const { allMovies, err } = this.state;
     let movie = "";

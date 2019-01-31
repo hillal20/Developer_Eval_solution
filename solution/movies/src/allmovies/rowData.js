@@ -25,15 +25,12 @@ const fetchPopularMovies = async () => {
     )
   ]);
 
-  console.log("p", promise);
   const data1 = await promise[0].data.results;
   const data2 = await promise[1].data.results;
   const data3 = await promise[2].data.results;
   const data4 = await promise[3].data.results;
-  console.log("data1", data1);
-  console.log("data2", data2);
+
   return [data1, data2, data3, data4];
-  //this.setState({ popularMovies: promise[0].data.results });
 };
 
 export default fetchPopularMovies;
