@@ -14,6 +14,10 @@ describe("movieDetail.js", () => {
     const div = document.createElement("div");
     ReactDOM.render(<MovieDetail />, div);
   });
+  it("rendering without crushing", () => {
+    const div = document.createElement("div");
+    ReactDOM.render(<MovieDetail />, div);
+  });
   it("create snap shot;'", () => {
     const element = renderer.create(<MovieDetail />);
     expect(element.toJSON()).toMatchSnapshot();
