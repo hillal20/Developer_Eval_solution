@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import keys from "../keys";
 import fetchMovies from "./rowData";
-
+import { bool } from "prop-types";
 class AllMovies extends Component {
   constructor(props) {
     super(props);

@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
+import App from "../App";
 import sinon from "sinon";
 import Enzyme, { shallow, configure } from "enzyme";
 import Renderer from "react-test-renderer";
